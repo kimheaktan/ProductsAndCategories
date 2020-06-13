@@ -1,0 +1,46 @@
+@model ViewCategoryDetails
+
+<h3 class="text-center"><a asp-action="AllProducts" asp-controller="Product" class="text-center">Got to Products</a> | <a asp-action="AllCategories" asp-controller="Category" class="text-center text-info">Got to Categories</a></h3>
+
+<h1 class="text-center">@Model.CurrentCategory.Name | ID: @Model.CurrentCategory.CategoryId</h1>
+
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-sm-3 col-md-6">
+            <p>Products in this category</p>
+
+            @foreach (var cat in ViewBag.AssociatedPros)
+            { 
+                @* <p>@cat.AssociatedProducts.Count</p> *@
+                @foreach (var p in cat.AssociatedProducts)
+                {
+                    <a asp-action="ViewOneProduct" asp-controller="Product" asp-route-ProName="@p.Product.Name" asp-route-ProId="@p.Product.ProductId" >@p.Product.Name</a><br>
+                } 
+            }  
+
+        </div>
+@* ~~end of left page (all products in this category~~~*@
+
+        <div class="col-sm-3 col-md-6">
+            <h3>Add Product to this category</h3>
+            
+            <form asp-action="AddProToCat" asp-controller="Category" method="POST"  >
+                <select asp-for="Association.ProductId">
+                    <option value="0">select one</option>
+                @foreach (var pro in ViewBag.UnAssociatedPros)
+                {
+                    <option value="@pro.ProductId">@pro.Name @pro.ProductId</option>
+                }
+                <input type="hidden" asp-for="Association.CategoryId" value="@Model.CurrentCategory.CategoryId">
+
+                <input  type="submit" value="Add to Category">
+                @Html.Raw(TempData["alertMessage"])
+
+                </select>
+            </form>
+        </div>
+
+    </div>
+</div>

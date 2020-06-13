@@ -1,0 +1,38 @@
+@model CreateAndAllProducts
+
+<h3 class="text-center"><a asp-action="AllProducts" asp-controller="Product" class="text-center">Got to Products</a> | <a asp-action="AllCategories" asp-controller="Category" class="text-center text-info">Got to Categories</a></h3>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-3 col-md-6">
+    <h4 class="text-center">Add Product</h4>
+        <div class="text-center">
+
+            <form asp-action="CreateProduct" asp-controller="Product" class="form-group">
+            <label asp-for="Product.Name" ></label>
+            <input asp-for="Product.Name" type="text">
+            <br>
+            <label asp-for="Product.Price" ></label>
+            <input asp-for="Product.Price" type="text">
+            <br>
+            <label asp-for="Product.Description" ></label>
+            <textarea asp-for="Product.Description" type="text"></textarea>
+
+            <input type="submit" class="btn btn-success">
+        </form>
+        </div>
+    </div>
+
+    <div class="col-sm-9 col-md-6">
+      <h4>These are existing products</h4>
+      @Model.AllProducts.Count products total<br>
+
+      @foreach (Product pro in Model.AllProducts)
+      {
+          <a asp-action="ViewOneProduct" asp-controller="Product" asp-route-ProId="@pro.ProductId" asp-route-ProName="@pro.Name"
+          >@pro.Name |ID: @pro.ProductId| Associated Categories: @pro.AssociatedCategories.Count</a><br>
+      }
+    </div>
+
+  </div>
+</div>
